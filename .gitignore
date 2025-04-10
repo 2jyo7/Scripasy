@@ -1,0 +1,19 @@
+# Virtual environment
+.venv/
+env/
+
+# Django stuff
+*.pyc
+__pycache__/
+db.sqlite3
+
+# VSCode or PyCharm
+.vscode/
+.idea/
+
+# Other
+*.log
+*.pot
+*.pyc
+.DS_Store
+.env
