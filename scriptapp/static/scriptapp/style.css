@@ -1,0 +1,12 @@
+body {
+  background-color: rgb(110, 70, 110);
+  margin: 20px 30px;
+}
+h1 {
+  color: white;
+}
+
+.entry-card {
+  border: 1px solid #333;
+  border-radius: 5px;
+}
