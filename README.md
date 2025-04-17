@@ -1,3 +1,5 @@
+![Screenshot (31)](https://github.com/user-attachments/assets/64455ef6-d56b-4d66-befe-c81bdb157353)
+![Screenshot (30)](https://github.com/user-attachments/assets/0a02f9d2-437a-4a41-ab7f-99dee16e91ea)
 # 🎬 Script Writer App
 
 A Django-based script writing tool designed for authors, screenwriters, and creative minds who want to break stories into emotional, place-based scenes. The app allows writers to input pieces of a story — like place, emotion, voice, and context — and group them into a structured chapter.
