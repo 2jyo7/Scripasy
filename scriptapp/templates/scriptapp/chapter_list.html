@@ -1,0 +1,36 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Published Chapters</title>
+    <link rel="stylesheet" href="{% static 'scriptapp/main.css' %}" />
+  </head>
+  <body class="bg-gray-100 min-h-screen text-gray-800 font-sans">
+    <div class="max-w-4xl mx-auto p-6">
+      <h1 class="text-3xl font-bold text-blue-700 mb-6">
+        📚 Published Chapters
+      </h1>
+
+      {% for chapter in chapters %}
+      <div
+        class="bg-white shadow-md rounded-xl p-4 mb-4 border-l-4 border-lime-400"
+      >
+        <h2 class="text-xl font-bold text-lime-700">{{ chapter.title }}</h2>
+        <p class="text-sm text-gray-500">Created: {{ chapter.created_at }}</p>
+        <ul class="list-disc ml-6 mt-2 text-gray-700">
+          {% for entry in chapter.entries.all %}
+          <li>
+            <strong>{{ entry.voice }}</strong>: {{ entry.place }} -
+            <em>{{ entry.emotion }}</em> - {{ entry.context }}
+          </li>
+          {% endfor %}
+        </ul>
+      </div>
+      {% empty %}
+      <p class="text-gray-600">No chapters published yet.</p>
+      {% endfor %}
+    </div>
+  </body>
+</html>

@@ -1,41 +1,49 @@
 from django.shortcuts import render, redirect
-from .forms import ScriptEntryForm
-from .models import ScriptEntry, Chapter
+from .models import Chapter, ScriptEntry
 
-def script_input_view(request):
-    form = ScriptEntryForm()
-    session_entries = request.session.get('entries', [])
+def script_input(request):
+    # Load entries from session (empty list if none)
+    entries = request.session.get('entries', [])
 
     if request.method == 'POST':
-        form = ScriptEntryForm(request.POST)
-        if form.is_valid():
-            entry_data = form.cleaned_data
+        if 'add' in request.POST:
+            # Add a new entry to the session
+            entry = {
+                'place': request.POST.get('place'),
+                'emotion': request.POST.get('emotion'),
+                'voice': request.POST.get('voice'),
+                'context': request.POST.get('context'),
+            }
 
-            if 'add' in request.POST:
-                # Add to session
-                session_entries.append(entry_data)
-                request.session['entries'] = session_entries
-                return redirect('script_input')  # reload the form
+            # Prevent empty entries
+            if any(entry.values()):
+                entries.append(entry)
+                request.session['entries'] = entries
+            return render(request, 'scriptapp/script_input.html', {'entries': entries})
 
-            elif 'publish' in request.POST:
-                # Create a new Chapter
-                chapter = Chapter.objects.create(title="Untitled Chapter")
+        elif 'publish' in request.POST:
+            chapter_title = request.POST.get('chapter_title')
 
-                # Save each entry into DB linked to this Chapter
-                for data in session_entries:
+            # Save to DB only if title and entries exist
+            if chapter_title and entries:
+                chapter = Chapter.objects.create(title=chapter_title)
+
+                for entry in entries:
                     ScriptEntry.objects.create(
                         chapter=chapter,
-                        place=data['place'],
-                        emotion=data['emotion'],
-                        voice=data['voice'],
-                        context=data['context']
+                        place=entry.get('place', ''),
+                        emotion=entry.get('emotion', ''),
+                        voice=entry.get('voice', ''),
+                        context=entry.get('context', '')
                     )
 
-                # Clear session
+                # Clear session after saving
                 request.session['entries'] = []
-                return redirect('script_input')
+                return redirect('chapter_list')
 
-    return render(request, 'scriptapp/script_input.html', {
-        'form': form,
-        'entries': session_entries,
-    })
+    return render(request, 'scriptapp/script_input.html', {'entries': entries})
+
+
+def chapter_list(request):
+    chapters = Chapter.objects.prefetch_related('entries').all()
+    return render(request, 'scriptapp/chapter_list.html', {'chapters': chapters})
