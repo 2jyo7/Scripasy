@@ -51,6 +51,7 @@ pip install -r requirements.txt
 bash
 Copy
 Edit
+
 python manage.py migrate
 python manage.py runserver
 Visit http://127.0.0.1:8000/ to view the app.
@@ -97,7 +98,8 @@ Let me know if you want:
 
 We can also add screenshots once you build the UI. Ready for the next step — forms and views?
 
-
+![Screenshot (32)](https://github.com/user-attachments/assets/305b65cd-11ad-4cb0-b0e6-c4bf22857d72)
+![Screenshot (171)](https://github.com/user-attachments/assets/dcdae574-5e79-4d11-90a5-05f31d813504)
 
 
 
