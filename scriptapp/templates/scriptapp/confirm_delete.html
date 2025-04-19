@@ -1,0 +1,40 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Confirm Deletion</title>
+    <link rel="stylesheet" href="{% static 'scriptapp/main.css' %}" />
+  </head>
+  <body
+    class="bg-gray-50 min-h-screen flex items-center justify-center px-4 py-12"
+  >
+    <div class="bg-white max-w-md w-full p-8 rounded-2xl shadow-xl text-center">
+      <h2 class="text-2xl font-bold text-red-600 mb-4">🚨 Confirm Deletion</h2>
+      <p class="text-gray-700 text-base mb-6">
+        Are you sure you want to permanently delete this entry?
+      </p>
+
+      <form
+        method="post"
+        class="flex flex-col sm:flex-row justify-center gap-4"
+      >
+        {% csrf_token %}
+        <button
+          type="submit"
+          class="px-6 py-3 bg-red-600 text-gray-700 font-semibold rounded-lg hover:bg-gray-200 hover:bg-red-700 transition"
+        >
+          ✅ Yes, Delete
+        </button>
+
+        <a
+          href="{% url 'chapter_list' %}"
+          class="px-6 py-3 text-gray-800 font-semibold rounded-lg hover:bg-gray-400 transition inline-block"
+        >
+          ❌ Cancel
+        </a>
+      </form>
+    </div>
+  </body>
+</html>

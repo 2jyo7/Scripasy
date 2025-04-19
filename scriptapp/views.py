@@ -1,10 +1,11 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect , get_object_or_404
 from .models import Chapter, ScriptEntry
+from .forms import ScriptEntryForm
 
 def script_input(request):
     # Load entries from session (empty list if none)
     entries = request.session.get('entries', [])
-
+    print(request)
     if request.method == 'POST':
         if 'add' in request.POST:
             # Add a new entry to the session
@@ -47,3 +48,22 @@ def script_input(request):
 def chapter_list(request):
     chapters = Chapter.objects.prefetch_related('entries').all()
     return render(request, 'scriptapp/chapter_list.html', {'chapters': chapters})
+
+
+def edit_entry(request, entry_id):
+    entry = get_object_or_404(ScriptEntry, id=entry_id)
+    if request.method == 'POST':
+        form = ScriptEntryForm(request.POST, instance=entry)
+        if form.is_valid():
+            form.save()
+            return redirect('chapter_list')
+    else:
+        form = ScriptEntryForm(instance=entry)
+    return render(request, 'scriptapp/edit_entry.html', {'form': form})
+
+def delete_entry(request, entry_id):
+    entry = get_object_or_404(ScriptEntry, id=entry_id)
+    if request.method == 'POST':
+        entry.delete()
+        return redirect('chapter_list')
+    return render(request, 'scriptapp/confirm_delete.html', {'entry': entry})

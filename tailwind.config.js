@@ -1,9 +1,9 @@
 // tailwind.config.js
 module.exports = {
   content: [
-    "./templates/**/*.html", // all your HTML templates
+    "./templates/**/*.html",
     "./scriptapp/templates/**/*.html",
-    "./scriptapp/static/**/*.css", // optional
+    "./**/*.py", // optional, only needed if you use classes in Python files
   ],
   theme: {
     extend: {},
